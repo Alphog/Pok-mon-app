@@ -25,7 +25,7 @@ h3 {
 }
 .parent {border:1px solid orange;
   
-  height:130vh;
+  
   width:450px;
   position:relative;
   left:50%;
@@ -117,16 +117,18 @@ padding:3px;
 }
 #images {
   margin-top:50px;
-  
+  display:flex;
+  align-items:center;
+  justify-content:center;
   height:120px;
 
 
 }
-#pokemon-name {
+#pokemon-namee {
   text-align:left;
  
 }
-#pokemon-namee {
+#pokemon-name {
    display:inline-block;
   padding-top:10px;
   text-align:left;
@@ -136,7 +138,7 @@ padding:3px;
   font-weight:500;
  
 }
-#weight {
+#weightt {
  
   text-align:left;
 }
@@ -151,7 +153,7 @@ padding:3px;
   display:inline-block;
   margin-left:10px;
 }
-#weightt {display:inline-block;
+#weight {display:inline-block;
    
   padding-top:8px;
 font-size:15px;
@@ -195,15 +197,3 @@ font-family:Verdana;
 }
 
 
-
-
-@media (min-width:680px){
-  .parent {
-    height:119vh;
-  }
-}
-@media (min-width:1060px){
-  .parent{
-    height:96vh;
-  }
-}

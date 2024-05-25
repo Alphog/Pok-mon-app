@@ -1,50 +1,92 @@
-const inputField =document.getElementById('search-input');
+
+
 const button =document.getElementById('search-button');
-const pokeName =document.getElementById('pokemon-namee');
+const pokeName =document.getElementById('pokemon-name');
 
 
 const pokeId =document.getElementById('pokemon-id');
 
-const pokeWeight =document.getElementById('weightt');
+const pokeWeight =document.getElementById('weight');
 
 const pokeHeight =document.getElementById('height');
 
-const imagesDiv =document.getElementById('images');
-
-const types =document.getElementById('types');
-
-let hp1 =document.getElementById('hp1');
-let attack2 =document.getElementById('attack2');
-let defense3 =document.getElementById('defense3');
-let sp4 =document.getElementById('sp4');
-let sp5 =document.getElementById('sp5');
-let speed6 =document.getElementById('speed6');
+let image =document.getElementById('sprite');
+  let types =document.getElementById('types');
 
 
-const stats =[hp1,attack2,defense3,sp4,sp5,speed6];
+
+
+
+function clear(){
+types.innerText ='';
+}
 
 
 
 
 
 
-
-const pokemons_name = 'https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/{name-or-id}';
-
-const pokemons_list = fetch('https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/nidoran-f')
-.then(strlist =>strlist.json())
-.then(data => {
-  let image = document.createElement('img');
-  image.src=`${data.sprites.back_default}`;
+async function fetchData(){
   
-  imagesDiv.appendChild(image);
-});
+  clear();
+
+
+  try{
+  
+    
+    const inputField = await document.getElementById('search-input').value.toLowerCase();
+    
+    const response =await 
+fetch(`https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/${inputField}`);
+if(!response.ok){
+  alert('Pokémon not found')
+  throw new Error('not found by alpha');
+}
+
+const data = await response.json();
+pokeName.innerText = data.name.toUpperCase();
+pokeId.innerText =`#${data.id}`;
+pokeWeight.innerText =`Weight: ${data.weight}`;
+pokeHeight.innerText =`Height: ${data.height}`;
+for(let i=0; i < data.types.length;i++){
+if(data.types[i]){
+  let button = document.createElement('button');
+  button.classList.add('button');
+  let text = document.createTextNode(`${data.types[i].type.name.toUpperCase()}`);
+  button.appendChild(text);
+ 
+  types.appendChild(button);
+}
+}
+ 
+
+const arr = [];
+for(let ele in data.stats){
+arr.push(data.stats[ele].base_stat);
+}
+
+const [hp1,attack2,defense3,sp4,sp5,speed6] = arr;
+
+
+document.getElementById('hp').innerText = hp1;
+document.getElementById('attack').innerText = attack2;
+document.getElementById('defense').innerText = defense3;
+document.getElementById('special-attack').innerText = sp4;
+document.getElementById('special-defense').innerText = sp5;
+document.getElementById('speed').innerText = speed6;
+ 
 
 
 
+const pokemonSprite = data.sprites.front_default;
 
+image.src=pokemonSprite;
+image.style.display='block';
 
-button.addEventListener('click',()=>{
-  let value = inputField.value;
-  console.log(value);
-});
+  
+}
+catch(err){
+console.error(err);
+}
+}
+button.addEventListener('click',fetchData);
